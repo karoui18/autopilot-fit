@@ -1,0 +1,7 @@
+const CACHE='autopilot-fit-v2';
+const ASSETS=['/','/index.html','/styles-v2.css','/app-v2.js','/db-v2.js','/engine-v2.js','/manifest.webmanifest','/icon-192.svg','/icon-512.svg'];
+self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
+self.addEventListener('activate',e=>e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))])));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;if(new URL(e.request.url).pathname.startsWith('/api/'))return;e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('/index.html'))))});
+self.addEventListener('push',e=>{let d={title:'Autopilot Fit',body:'Your workout is ready.'};try{d={...d,...e.data.json()}}catch{}e.waitUntil(self.registration.showNotification(d.title,{body:d.body,icon:'/icon-192.svg',badge:'/icon-192.svg',tag:d.tag||'autopilot-fit',data:{url:d.url||'/'}}))});
+self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(clients.matchAll({type:'window',includeUncontrolled:true}).then(cs=>cs[0]?cs[0].focus():clients.openWindow(e.notification.data?.url||'/')))});
