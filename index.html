@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="/icon-192.svg" />
+  <title>Autopilot Fit</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">AUTOPILOT FIT</div>
+        <h1 id="greeting">Aujourd’hui</h1>
+      </div>
+      <button id="installBtn" class="ghost hidden">Installer</button>
+    </header>
+
+    <section class="hero card">
+      <div>
+        <span class="label">Poids</span>
+        <div class="metric"><span id="weightNow">—</span><small> kg</small></div>
+        <div id="trendText" class="subtle">Ajoute ton poids pour démarrer.</div>
+      </div>
+      <button class="primary" data-action="weight">+ Poids</button>
+    </section>
+
+    <section class="grid2">
+      <article class="card stat"><span class="label">Pas</span><strong id="stepsNow">0</strong><small id="stepsTarget">/ 8 000</small></article>
+      <article class="card stat"><span class="label">Série</span><strong id="streakNow">0</strong><small> jours</small></article>
+    </section>
+
+    <section class="card workout-card">
+      <div class="row between">
+        <div><span class="label">Séance du jour</span><h2 id="workoutTitle">Workout A</h2></div>
+        <span id="workoutDuration" class="pill">~25 min</span>
+      </div>
+      <div id="exerciseList" class="exercise-list"></div>
+      <div class="actions">
+        <button id="startWorkout" class="primary grow">Commencer</button>
+        <button id="minimumWorkout" class="secondary">⚡ 8 min</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row between"><div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div><button class="ghost" data-action="food">Ajouter</button></div>
+      <div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div>
+      <div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div>
+    </section>
+
+    <section class="card">
+      <div class="row between"><div><span class="label">Coach</span><h2>Rappels</h2></div><button id="notifyBtn" class="ghost">Activer</button></div>
+      <p id="notifyStatus" class="subtle">Active les notifications pour les rappels d'entraînement.</p>
+      <button id="testNotify" class="secondary full">Tester une notification</button>
+    </section>
+
+    <section class="card">
+      <div class="row between"><div><span class="label">Données</span><h2>Export & sauvegarde</h2></div></div>
+      <div class="actions wrap">
+        <button id="exportJson" class="secondary">Export JSON</button>
+        <button id="exportCsv" class="secondary">Export CSV</button>
+        <label class="secondary file-btn">Importer JSON<input id="importJson" type="file" accept="application/json" hidden></label>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottomnav">
+    <button class="active" data-tab="today">Aujourd’hui</button>
+    <button data-action="food">Repas</button>
+    <button data-action="weight">Poids</button>
+    <button id="settingsBtn">Réglages</button>
+  </nav>
+
+  <dialog id="modal"><form method="dialog" class="modal-card"><div id="modalBody"></div><button class="secondary full" value="cancel">Fermer</button></form></dialog>
+  <script src="/db.js"></script>
+  <script src="/engine.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
