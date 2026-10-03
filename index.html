@@ -7,9 +7,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="manifest" href="/manifest.webmanifest" />
-  <link rel="apple-touch-icon" href="/icon-192.svg" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <link rel="icon" type="image/png" href="/icon-192.png" />
   <title>Autopilot Fit</title>
   <link rel="stylesheet" href="/styles-v2.css" />
+  <link rel="stylesheet" href="/exercise-guides-v1.css" />
 </head>
 <body>
   <div class="app-shell">
@@ -21,37 +23,14 @@
     <main>
       <section class="view active" data-view="today">
         <section class="stories-strip" id="storiesStrip" aria-label="Motivation stories"></section>
-
-        <section class="card hero">
-          <div><span class="label">Poids</span><div class="metric"><span id="weightNow">—</span><small> kg</small></div><div id="trendText" class="subtle">Ajoute ton poids pour démarrer.</div></div>
-          <button class="primary compact" data-action="weight">+ Poids</button>
-        </section>
-
-        <section class="grid3">
-          <article class="card mini-stat"><span class="label">Pas</span><strong id="stepsNow">0</strong><small id="stepsTarget">/ 8 000</small></article>
-          <article class="card mini-stat"><span class="label">Série</span><strong id="streakNow">0</strong><small> jours</small></article>
-          <article class="card mini-stat"><span class="label">Séances</span><strong id="weekWorkouts">0</strong><small>/ 3</small></article>
-        </section>
-
-        <section class="card">
-          <div class="row between"><div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div><button class="ghost compact" data-action="food">+ Repas</button></div>
-          <div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div>
-          <div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div>
-          <div class="quick-log"><button data-action="steps" class="secondary">+ Pas</button><button data-action="checkin" class="secondary">Énergie / faim</button></div>
-        </section>
-
-        <section class="card accent-card">
-          <div class="row between"><div><span class="label">Autopilot</span><h2 id="autopilotHeadline">Collecte des données</h2></div><span id="autopilotBadge" class="pill">En cours</span></div>
-          <p id="autopilotText" class="subtle">Le moteur attend suffisamment de données avant d’ajuster le plan.</p>
-        </section>
+        <section class="card hero"><div><span class="label">Poids</span><div class="metric"><span id="weightNow">—</span><small> kg</small></div><div id="trendText" class="subtle">Ajoute ton poids pour démarrer.</div></div><button class="primary compact" data-action="weight">+ Poids</button></section>
+        <section class="grid3"><article class="card mini-stat"><span class="label">Pas</span><strong id="stepsNow">0</strong><small id="stepsTarget">/ 8 000</small></article><article class="card mini-stat"><span class="label">Série</span><strong id="streakNow">0</strong><small> jours</small></article><article class="card mini-stat"><span class="label">Séances</span><strong id="weekWorkouts">0</strong><small>/ 3</small></article></section>
+        <section class="card"><div class="row between"><div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div><button class="ghost compact" data-action="food">+ Repas</button></div><div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div><div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div><div class="quick-log"><button data-action="steps" class="secondary">+ Pas</button><button data-action="checkin" class="secondary">Énergie / faim</button></div></section>
+        <section class="card accent-card"><div class="row between"><div><span class="label">Autopilot</span><h2 id="autopilotHeadline">Collecte des données</h2></div><span id="autopilotBadge" class="pill">En cours</span></div><p id="autopilotText" class="subtle">Le moteur attend suffisamment de données avant d’ajuster le plan.</p></section>
       </section>
 
       <section class="view" data-view="workout">
-        <section class="card workout-card">
-          <div class="row between"><div><span class="label">Séance proposée</span><h2 id="workoutTitle">Workout A</h2></div><span id="workoutDuration" class="pill">~25 min</span></div>
-          <div id="exerciseList" class="exercise-list"></div>
-          <div class="actions"><button id="startWorkout" class="primary grow">Commencer</button><button id="minimumWorkout" class="secondary">⚡ 8 min</button></div>
-        </section>
+        <section class="card workout-card"><div class="row between"><div><span class="label">Séance proposée</span><h2 id="workoutTitle">Workout A</h2></div><span id="workoutDuration" class="pill">~25 min</span></div><div id="exerciseList" class="exercise-list"></div><div class="actions"><button id="startWorkout" class="primary grow">Commencer</button><button id="minimumWorkout" class="secondary">⚡ 8 min</button></div></section>
         <section class="card"><span class="label">Progression</span><h2>Prochaine prescription</h2><div id="nextProgression" class="stack"></div></section>
         <section class="card"><span class="label">Historique</span><h2>Dernières séances</h2><div id="workoutHistory" class="stack"></div></section>
       </section>
@@ -62,39 +41,18 @@
         <section class="card"><span class="label">Training</span><h2>Volume des 8 dernières séances</h2><canvas id="volumeChart" height="180"></canvas></section>
       </section>
 
-      <section class="view stories-page" data-view="stories">
-        <div class="story-progress" id="storyProgress"></div>
-        <article class="quote-short" id="quoteShort">
-          <div class="quote-kicker">MOTIVATION</div>
-          <blockquote id="quoteText">Loading inspiration…</blockquote>
-          <div id="quoteAuthor" class="quote-author"></div>
-          <div class="quote-actions"><button id="prevQuote" class="story-btn">←</button><button id="nextQuote" class="story-btn">→</button></div>
-          <a class="quote-credit" href="https://zenquotes.io/" target="_blank" rel="noreferrer">Inspirational quotes provided by ZenQuotes API</a>
-        </article>
-      </section>
+      <section class="view stories-page" data-view="stories"><div class="story-progress" id="storyProgress"></div><article class="quote-short" id="quoteShort"><div class="quote-kicker">MOTIVATION</div><blockquote id="quoteText">Loading inspiration…</blockquote><div id="quoteAuthor" class="quote-author"></div><div class="quote-actions"><button id="prevQuote" class="story-btn">←</button><button id="nextQuote" class="story-btn">→</button></div><a class="quote-credit" href="https://zenquotes.io/" target="_blank" rel="noreferrer">Inspirational quotes provided by ZenQuotes API</a></article></section>
 
       <section class="view" data-view="settings">
-        <section class="card"><span class="label">Objectifs</span><h2>Plan quotidien</h2><div class="settings-grid">
-          <label>Calories<input id="calTarget" type="number" inputmode="numeric"></label>
-          <label>Protéines (g)<input id="proteinTarget" type="number" inputmode="numeric"></label>
-          <label>Pas<input id="stepsTargetInput" type="number" inputmode="numeric"></label>
-          <label>Plancher calories<input id="minCalTarget" type="number" inputmode="numeric"></label>
-          <label>Incrément haltères (kg)<input id="loadIncrement" type="number" step="0.5" inputmode="decimal"></label>
-        </div><label class="toggle-row"><span>Autopilot hebdomadaire</span><input id="autopilotEnabled" type="checkbox"></label><button id="saveSettings" class="primary full">Enregistrer</button></section>
+        <section class="card"><span class="label">Objectifs</span><h2>Plan quotidien</h2><div class="settings-grid"><label>Calories<input id="calTarget" type="number" inputmode="numeric"></label><label>Protéines (g)<input id="proteinTarget" type="number" inputmode="numeric"></label><label>Pas<input id="stepsTargetInput" type="number" inputmode="numeric"></label><label>Plancher calories<input id="minCalTarget" type="number" inputmode="numeric"></label><label>Incrément haltères (kg)<input id="loadIncrement" type="number" step="0.5" inputmode="decimal"></label></div><label class="toggle-row"><span>Autopilot hebdomadaire</span><input id="autopilotEnabled" type="checkbox"></label><button id="saveSettings" class="primary full">Enregistrer</button></section>
         <section class="card"><div class="row between"><div><span class="label">Coach</span><h2>Notifications</h2></div><button id="notifyBtn" class="ghost compact">Activer</button></div><p id="notifyStatus" class="subtle"></p><button id="testNotify" class="secondary full">Tester une notification</button></section>
         <section class="card"><span class="label">Données</span><h2>Sauvegarde</h2><div class="actions wrap"><button id="exportJson" class="secondary">Export JSON</button><button id="exportCsv" class="secondary">Export CSV</button><label class="secondary file-btn">Importer JSON<input id="importJson" type="file" accept="application/json" hidden></label><button id="deleteData" class="danger">Effacer les données</button></div></section>
       </section>
     </main>
 
-    <nav class="bottomnav" aria-label="Navigation">
-      <button class="active" data-nav="today"><span>⌂</span><small>Today</small></button>
-      <button data-nav="workout"><span>●</span><small>Workout</small></button>
-      <button data-nav="progress"><span>↗</span><small>Progress</small></button>
-      <button data-nav="stories"><span>▶</span><small>Stories</small></button>
-      <button data-nav="settings"><span>⚙</span><small>Settings</small></button>
-    </nav>
+    <nav class="bottomnav" aria-label="Navigation"><button class="active" data-nav="today"><span>⌂</span><small>Today</small></button><button data-nav="workout"><span>●</span><small>Workout</small></button><button data-nav="progress"><span>↗</span><small>Progress</small></button><button data-nav="stories"><span>▶</span><small>Stories</small></button><button data-nav="settings"><span>⚙</span><small>Settings</small></button></nav>
   </div>
   <dialog id="modal"><form method="dialog" class="modal-card"><div id="modalBody"></div><button class="secondary full" value="cancel">Fermer</button></form></dialog>
-  <script src="/db-v2.js"></script><script src="/engine-v2.js"></script><script src="/app-v2.js"></script>
+  <script src="/db-v2.js"></script><script src="/engine-v2.js"></script><script src="/app-v2.js"></script><script src="/exercise-guides-v1.js"></script>
 </body>
 </html>
