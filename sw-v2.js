@@ -1,4 +1,4 @@
-const CACHE='autopilot-fit-v3';
+const CACHE='autopilot-fit-v4';
 const ASSETS=['/','/index.html','/styles-v2.css','/exercise-guides-v1.css','/app-v2.js','/db-v2.js','/engine-v2.js','/exercise-guides-v1.js','/manifest.webmanifest','/icon-192.png','/icon-512.png','/icon-maskable-512.png'];
 self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)))});
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))])));
