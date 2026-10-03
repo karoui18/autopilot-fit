@@ -1,0 +1,35 @@
+let data=DB.load();let deferredPrompt=null;
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function day(){return data.days[todayKey()] ||= {steps:0,calories:0,protein:0}}
+function save(){DB.save(data);render()}
+function download(name,blob){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}
+function render(){
+  const w=[...data.weights].sort((a,b)=>a.date.localeCompare(b.date));const latest=w.at(-1);$('#weightNow').textContent=latest?Number(latest.value).toFixed(1):'—';
+  const delta=Engine.weeklyDelta(w);$('#trendText').textContent=delta===null?'Ajoute quelques pesées pour calculer la tendance.':`${delta<=0?'↓':'↑'} ${Math.abs(delta).toFixed(1)} kg sur ~7 jours`;
+  const d=day();$('#stepsNow').textContent=Number(d.steps||0).toLocaleString('fr-FR');$('#stepsTarget').textContent=`/ ${data.profile.stepsTarget.toLocaleString('fr-FR')}`;
+  const streak=calcStreak();$('#streakNow').textContent=streak;
+  const plan=Engine.todaysPlan(data);$('#workoutTitle').textContent=`Workout ${plan}`;$('#exerciseList').innerHTML=Engine.plans[plan].map(([n,r])=>`<div class="exercise"><b>${n}</b><span>${r}</span></div>`).join('');
+  $('#calText').textContent=`${d.calories||0} / ${data.profile.calTarget}`;$('#proteinText').textContent=`${d.protein||0} / ${data.profile.proteinTarget} g`;
+  $('#calBar').style.width=`${Math.min(100,(d.calories||0)/data.profile.calTarget*100)}%`;$('#proteinBar').style.width=`${Math.min(100,(d.protein||0)/data.profile.proteinTarget*100)}%`;
+  $('#notifyStatus').textContent=Notification.permission==='granted'?'Notifications autorisées sur cet appareil.':'Active les notifications pour les rappels d\'entraînement.';
+}
+function calcStreak(){let n=0,d=new Date();for(;;){const k=d.toISOString().slice(0,10);const has=data.days[k]?.steps>0||data.workouts.some(w=>w.date===k&&w.completed);if(!has)break;n++;d.setDate(d.getDate()-1)}return n}
+function modal(html){$('#modalBody').innerHTML=html;$('#modal').showModal()}
+function bind(){
+  $$('[data-action="weight"]').forEach(b=>b.onclick=()=>modal(`<h3>Ajouter le poids</h3><div class="field"><label>Poids (kg)</label><input id="weightInput" type="number" step="0.1" inputmode="decimal"></div><button id="saveWeight" class="primary full" type="button">Enregistrer</button>`));
+  document.addEventListener('click',e=>{if(e.target.id==='saveWeight'){const v=Number($('#weightInput').value);if(v>0){data.weights.push({date:todayKey(),value:v});save();$('#modal').close()}}});
+  $$('[data-action="food"]').forEach(b=>b.onclick=()=>modal(`<h3>Ajouter nutrition</h3><div class="field"><label>Calories</label><input id="calInput" type="number" inputmode="numeric"></div><div class="field"><label>Protéines (g)</label><input id="protInput" type="number" inputmode="numeric"></div><button id="saveFood" class="primary full" type="button">Ajouter</button><hr><div class="field"><label>Recherche OpenFoodFacts</label><input id="offQuery" placeholder="ex: skyr, thon, poulet"></div><button id="offSearch" class="secondary full" type="button">Rechercher</button><div id="offResults"></div>`));
+  document.addEventListener('click',async e=>{if(e.target.id==='saveFood'){const d=day();d.calories+=Number($('#calInput').value||0);d.protein+=Number($('#protInput').value||0);save();$('#modal').close()}if(e.target.id==='offSearch'){const q=$('#offQuery').value.trim();if(!q)return;$('#offResults').textContent='Recherche…';try{const r=await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(q)}&search_simple=1&action=process&json=1&page_size=5`);const j=await r.json();$('#offResults').innerHTML=(j.products||[]).map(p=>`<div class="choice"><span>${p.product_name||'Produit'}<br><small>${p.nutriments?.['energy-kcal_100g']||'?'} kcal/100g • ${p.nutriments?.proteins_100g||'?'} g prot.</small></span></div>`).join('')||'Aucun résultat'}catch{$('#offResults').textContent='Recherche indisponible.'}}});
+  $('#startWorkout').onclick=()=>openWorkout(false);$('#minimumWorkout').onclick=()=>openWorkout(true);
+  $('#notifyBtn').onclick=async()=>{if(!('Notification'in window))return alert('Notifications non supportées.');const p=await Notification.requestPermission();data.settings.notifications=p==='granted';save()};
+  $('#testNotify').onclick=async()=>{if(Notification.permission!=='granted')await Notification.requestPermission();if(Notification.permission==='granted'){new Notification('Autopilot Fit',{body:'🏋️ Ta séance du jour est prête. 20 minutes suffisent.'})}};
+  $('#exportJson').onclick=()=>download(`autopilot-fit-${todayKey()}.json`,new Blob([DB.export(data)],{type:'application/json'}));
+  $('#exportCsv').onclick=()=>{const rows=['date,weight,steps,calories,protein'];const dates=new Set([...data.weights.map(x=>x.date),...Object.keys(data.days)]);[...dates].sort().forEach(date=>{const w=data.weights.filter(x=>x.date===date).at(-1)?.value||'';const d=data.days[date]||{};rows.push([date,w,d.steps||'',d.calories||'',d.protein||''].join(','))});download(`autopilot-fit-${todayKey()}.csv`,new Blob([rows.join('\n')],{type:'text/csv'}))};
+  $('#importJson').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const j=JSON.parse(await f.text());data=j.data||j;save();alert('Import terminé.')}catch{alert('Fichier invalide.')}};
+  $('#settingsBtn').onclick=()=>modal(`<h3>Réglages</h3>${['calTarget|Calories cibles','proteinTarget|Protéines cibles (g)','stepsTarget|Pas cibles'].map(x=>{const[k,l]=x.split('|');return `<div class="field"><label>${l}</label><input id="${k}" type="number" value="${data.profile[k]}"></div>`}).join('')}<button id="saveSettings" class="primary full" type="button">Enregistrer</button>`);
+  document.addEventListener('click',e=>{if(e.target.id==='saveSettings'){['calTarget','proteinTarget','stepsTarget'].forEach(k=>data.profile[k]=Number($('#'+k).value));save();$('#modal').close()}if(e.target.id==='completeWorkout'){const plan=Engine.todaysPlan(data);data.workouts.push({date:todayKey(),plan,completed:true,minimum:e.target.dataset.minimum==='1'});save();$('#modal').close()}});
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').classList.remove('hidden')});$('#installBtn').onclick=async()=>{if(deferredPrompt){deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('#installBtn').classList.add('hidden')}};
+}
+function openWorkout(minimum){const plan=Engine.todaysPlan(data);const list=minimum?Engine.plans[plan].slice(0,3).map(([n])=>[n,'1 série']) : Engine.plans[plan];modal(`<h3>${minimum?'⚡ Minimum workout':`Workout ${plan}`}</h3>${list.map(([n,r])=>`<div class="choice"><b>${n}</b><span>${r}</span></div>`).join('')}<button id="completeWorkout" data-minimum="${minimum?'1':'0'}" class="primary full" type="button">Terminer la séance</button>`)}
+if('serviceWorker'in navigator)navigator.serviceWorker.register('/sw.js');bind();render();
