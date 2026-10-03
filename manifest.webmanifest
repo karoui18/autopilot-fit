@@ -6,8 +6,8 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#071014",
-  "theme_color": "#0b1020",
+  "background_color": "#f6f4ee",
+  "theme_color": "#000000",
   "prefer_related_applications": false,
   "categories": ["fitness", "health", "lifestyle"],
   "icons": [
