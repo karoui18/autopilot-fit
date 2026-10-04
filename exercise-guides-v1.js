@@ -12,21 +12,39 @@
     'rower': {title:'Rameur',setup:'Pieds sanglés, dos neutre, poignées détendues.',steps:['Jambes d’abord.','Puis légère ouverture du buste.','Finis avec les bras; au retour: bras, buste, jambes.'],tempo:'Retour plus lent que la traction',rest:'—',focus:'Cardio global · chaîne postérieure',avoid:'Tirer d’abord avec les bras; arrondir le dos.'}
   };
 
+  const BASE='https://exercise-dataset.com/images/flat/';
+  const visuals={
+    'goblet-squat':['goblet-squat-start.webp','goblet-squat-peak.webp'],
+    'db-bench':['db-bench-press-start.webp','db-bench-press-peak.webp'],
+    'one-arm-row':['single-arm-db-row-start.webp','single-arm-db-row-peak.webp'],
+    'rdl':['dumbbell-romanian-deadlift-start.webp','dumbbell-romanian-deadlift-peak.webp'],
+    'split-squat':['split-squat-start.webp','split-squat-peak.webp'],
+    'shoulder-press':['dumbbell-shoulder-press-start.webp','dumbbell-shoulder-press-peak.webp'],
+    'chest-row':['chest-supported-db-row-start.webp','chest-supported-db-row-peak.webp'],
+    'hip-thrust':['dumbbell-hip-thrust-start.webp','dumbbell-hip-thrust-peak.webp'],
+    'bike':['stationary-bike-main.webp'],
+    'rower':['rowing-machine-start.webp','rowing-machine-peak.webp']
+  };
+
   const nameToId=Object.fromEntries(Object.entries(guides).map(([id,g])=>[g.title.toLowerCase(),id]));
-  const schema=(id,cls='exercise-schema')=>`<div class="${cls} schema-${id}" role="img" aria-label="Schéma visuel ${guides[id]?.title||id}: positions de départ et de fin"></div>`;
+  function visual(id,cls='exercise-visual'){
+    const files=visuals[id]||[];if(!files.length)return'';
+    const labels=files.length===1?['Mouvement']:['Départ','Fin'];
+    return `<figure class="${cls}" aria-label="Positions de ${guides[id]?.title||id}">${files.map((f,i)=>`<div class="visual-frame"><img src="${BASE+f}" alt="${guides[id]?.title||id} — ${labels[i]}" loading="lazy"><span>${labels[i]}</span></div>`).join('')}</figure>`;
+  }
 
   function markup(id){
     const g=guides[id];if(!g)return'';
-    return `<div class="exercise-guide" data-guide-panel="${id}">${schema(id)}<div class="guide-meta"><span>Tempo: ${g.tempo}</span><span>Repos: ${g.rest}</span></div><div class="guide-setup"><b>Setup</b><p>${g.setup}</p></div><ol class="guide-steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="guide-focus"><b>Cible</b><span>${g.focus}</span></div><div class="guide-warning"><b>À éviter</b><span>${g.avoid}</span></div></div>`;
+    return `<div class="exercise-guide" data-guide-panel="${id}">${visual(id)}<div class="guide-meta"><span>Tempo: ${g.tempo}</span><span>Repos: ${g.rest}</span></div><div class="guide-setup"><b>Setup</b><p>${g.setup}</p></div><ol class="guide-steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="guide-focus"><b>Cible</b><span>${g.focus}</span></div><div class="guide-warning"><b>À éviter</b><span>${g.avoid}</span></div><a class="guide-credit" href="https://exercise-dataset.com/" target="_blank" rel="noreferrer">Exercise visuals by RepDB</a></div>`;
   }
 
   function augmentList(){
     document.querySelectorAll('#exerciseList .exercise:not(.guide-ready)').forEach(card=>{
       const id=nameToId[card.querySelector('b')?.textContent?.trim().toLowerCase()];if(!id)return;
       card.classList.add('guide-ready');
-      card.insertAdjacentHTML('afterbegin',schema(id,'schema-thumb'));
-      const btn=document.createElement('button');btn.type='button';btn.className='guide-toggle';btn.textContent='Schema';
-      btn.onclick=()=>{let p=card.querySelector('.exercise-guide');if(!p){card.insertAdjacentHTML('beforeend',markup(id));p=card.querySelector('.exercise-guide')}const open=p.classList.toggle('open');btn.textContent=open?'Hide':'Schema'};
+      card.insertAdjacentHTML('afterbegin',visual(id,'visual-thumb'));
+      const btn=document.createElement('button');btn.type='button';btn.className='guide-toggle';btn.textContent='Visual';
+      btn.onclick=()=>{let p=card.querySelector('.exercise-guide');if(!p){card.insertAdjacentHTML('beforeend',markup(id));p=card.querySelector('.exercise-guide')}const open=p.classList.toggle('open');btn.textContent=open?'Hide':'Visual'};
       card.appendChild(btn);
     });
   }
@@ -35,7 +53,7 @@
     document.querySelectorAll('#workoutForm .workout-ex:not(.guide-ready)').forEach(card=>{
       const id=card.dataset.ex==='mini-cardio'?(card.querySelector('b')?.textContent?.includes('Vélo')?'bike':'rower'):card.dataset.ex;if(!guides[id])return;
       card.classList.add('guide-ready');
-      card.querySelector('.workout-ex-head')?.insertAdjacentHTML('afterend',`<details class="workout-guide-details"><summary>Schéma & technique</summary>${markup(id)}</details>`);
+      card.querySelector('.workout-ex-head')?.insertAdjacentHTML('afterend',`<details class="workout-guide-details"><summary>Visual & technique</summary>${markup(id)}</details>`);
     });
   }
 
