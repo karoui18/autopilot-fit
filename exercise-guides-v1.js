@@ -11,10 +11,34 @@
     'bike': {title:'Vélo',setup:'Selle réglée pour garder une légère flexion du genou en bas du pédalage.',steps:['Commence 2 min très facile.','Reste à une intensité où tu peux encore parler en phrases.','Termine 1 min très facile.'],tempo:'Cadence régulière',rest:'—',focus:'Cardio facile / récupération active',avoid:'Résistance trop forte ou douleur de selle persistante.'},
     'rower': {title:'Rameur',setup:'Pieds sanglés, dos neutre, poignées détendues.',steps:['Jambes d’abord.','Puis légère ouverture du buste.','Finis avec les bras; au retour: bras, buste, jambes.'],tempo:'Retour plus lent que la traction',rest:'—',focus:'Cardio global · chaîne postérieure',avoid:'Tirer d’abord avec les bras; arrondir le dos.'}
   };
+
   const nameToId=Object.fromEntries(Object.entries(guides).map(([id,g])=>[g.title.toLowerCase(),id]));
-  function markup(id){const g=guides[id];if(!g)return'';return `<div class="exercise-guide" data-guide-panel="${id}"><div class="guide-meta"><span>Tempo: ${g.tempo}</span><span>Repos: ${g.rest}</span></div><div class="guide-setup"><b>Setup</b><p>${g.setup}</p></div><ol class="guide-steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="guide-focus"><b>Cible</b><span>${g.focus}</span></div><div class="guide-warning"><b>À éviter</b><span>${g.avoid}</span></div></div>`}
-  function augmentList(){document.querySelectorAll('#exerciseList .exercise:not(.guide-ready)').forEach(card=>{const id=nameToId[card.querySelector('b')?.textContent?.trim().toLowerCase()];if(!id)return;card.classList.add('guide-ready');const btn=document.createElement('button');btn.type='button';btn.className='guide-toggle';btn.textContent='How';btn.onclick=()=>{let p=card.querySelector('.exercise-guide');if(!p){card.insertAdjacentHTML('beforeend',markup(id));p=card.querySelector('.exercise-guide')}const open=p.classList.toggle('open');btn.textContent=open?'Hide':'How'};card.appendChild(btn)})}
-  function augmentModal(){document.querySelectorAll('#workoutForm .workout-ex:not(.guide-ready)').forEach(card=>{const id=card.dataset.ex==='mini-cardio'?(card.querySelector('b')?.textContent?.includes('Vélo')?'bike':'rower'):card.dataset.ex;if(!guides[id])return;card.classList.add('guide-ready');card.querySelector('.workout-ex-head')?.insertAdjacentHTML('afterend',`<details class="workout-guide-details"><summary>Technique & repères</summary>${markup(id)}</details>`)})}
+  const schema=(id,cls='exercise-schema')=>`<div class="${cls} schema-${id}" role="img" aria-label="Schéma visuel ${guides[id]?.title||id}: positions de départ et de fin"></div>`;
+
+  function markup(id){
+    const g=guides[id];if(!g)return'';
+    return `<div class="exercise-guide" data-guide-panel="${id}">${schema(id)}<div class="guide-meta"><span>Tempo: ${g.tempo}</span><span>Repos: ${g.rest}</span></div><div class="guide-setup"><b>Setup</b><p>${g.setup}</p></div><ol class="guide-steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="guide-focus"><b>Cible</b><span>${g.focus}</span></div><div class="guide-warning"><b>À éviter</b><span>${g.avoid}</span></div></div>`;
+  }
+
+  function augmentList(){
+    document.querySelectorAll('#exerciseList .exercise:not(.guide-ready)').forEach(card=>{
+      const id=nameToId[card.querySelector('b')?.textContent?.trim().toLowerCase()];if(!id)return;
+      card.classList.add('guide-ready');
+      card.insertAdjacentHTML('afterbegin',schema(id,'schema-thumb'));
+      const btn=document.createElement('button');btn.type='button';btn.className='guide-toggle';btn.textContent='Schema';
+      btn.onclick=()=>{let p=card.querySelector('.exercise-guide');if(!p){card.insertAdjacentHTML('beforeend',markup(id));p=card.querySelector('.exercise-guide')}const open=p.classList.toggle('open');btn.textContent=open?'Hide':'Schema'};
+      card.appendChild(btn);
+    });
+  }
+
+  function augmentModal(){
+    document.querySelectorAll('#workoutForm .workout-ex:not(.guide-ready)').forEach(card=>{
+      const id=card.dataset.ex==='mini-cardio'?(card.querySelector('b')?.textContent?.includes('Vélo')?'bike':'rower'):card.dataset.ex;if(!guides[id])return;
+      card.classList.add('guide-ready');
+      card.querySelector('.workout-ex-head')?.insertAdjacentHTML('afterend',`<details class="workout-guide-details"><summary>Schéma & technique</summary>${markup(id)}</details>`);
+    });
+  }
+
   function augment(){augmentList();augmentModal()}
   new MutationObserver(augment).observe(document.documentElement,{subtree:true,childList:true});
   document.addEventListener('DOMContentLoaded',augment);setTimeout(augment,300);
