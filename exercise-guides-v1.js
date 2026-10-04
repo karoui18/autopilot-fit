@@ -11,7 +11,6 @@
     'bike': {title:'Vélo',setup:'Selle réglée pour garder une légère flexion du genou en bas du pédalage.',steps:['Commence 2 min très facile.','Reste à une intensité où tu peux encore parler en phrases.','Termine 1 min très facile.'],tempo:'Cadence régulière',rest:'—',focus:'Cardio facile / récupération active',avoid:'Résistance trop forte ou douleur de selle persistante.'},
     'rower': {title:'Rameur',setup:'Pieds sanglés, dos neutre, poignées détendues.',steps:['Jambes d’abord.','Puis légère ouverture du buste.','Finis avec les bras; au retour: bras, buste, jambes.'],tempo:'Retour plus lent que la traction',rest:'—',focus:'Cardio global · chaîne postérieure',avoid:'Tirer d’abord avec les bras; arrondir le dos.'}
   };
-
   const BASE='https://exercise-dataset.com/images/flat/';
   const visuals={
     'goblet-squat':['goblet-squat-start.webp','goblet-squat-peak.webp'],
@@ -25,39 +24,32 @@
     'bike':['stationary-bike-main.webp'],
     'rower':['rowing-machine-start.webp','rowing-machine-peak.webp']
   };
-
   const nameToId=Object.fromEntries(Object.entries(guides).map(([id,g])=>[g.title.toLowerCase(),id]));
   function visual(id,cls='exercise-visual'){
     const files=visuals[id]||[];if(!files.length)return'';
     const labels=files.length===1?['Mouvement']:['Départ','Fin'];
     return `<figure class="${cls}" aria-label="Positions de ${guides[id]?.title||id}">${files.map((f,i)=>`<div class="visual-frame"><img src="${BASE+f}" alt="${guides[id]?.title||id} — ${labels[i]}" loading="lazy"><span>${labels[i]}</span></div>`).join('')}</figure>`;
   }
-
   function markup(id){
     const g=guides[id];if(!g)return'';
     return `<div class="exercise-guide" data-guide-panel="${id}">${visual(id)}<div class="guide-meta"><span>Tempo: ${g.tempo}</span><span>Repos: ${g.rest}</span></div><div class="guide-setup"><b>Setup</b><p>${g.setup}</p></div><ol class="guide-steps">${g.steps.map(s=>`<li>${s}</li>`).join('')}</ol><div class="guide-focus"><b>Cible</b><span>${g.focus}</span></div><div class="guide-warning"><b>À éviter</b><span>${g.avoid}</span></div><a class="guide-credit" href="https://exercise-dataset.com/" target="_blank" rel="noreferrer">Exercise visuals by RepDB</a></div>`;
   }
-
   function augmentList(){
     document.querySelectorAll('#exerciseList .exercise:not(.guide-ready)').forEach(card=>{
       const id=nameToId[card.querySelector('b')?.textContent?.trim().toLowerCase()];if(!id)return;
-      card.classList.add('guide-ready');
-      card.insertAdjacentHTML('afterbegin',visual(id,'visual-thumb'));
+      card.classList.add('guide-ready');card.insertAdjacentHTML('afterbegin',visual(id,'visual-thumb'));
       const btn=document.createElement('button');btn.type='button';btn.className='guide-toggle';btn.textContent='Visual';
-      btn.onclick=()=>{let p=card.querySelector('.exercise-guide');if(!p){card.insertAdjacentHTML('beforeend',markup(id));p=card.querySelector('.exercise-guide')}const open=p.classList.toggle('open');btn.textContent=open?'Hide':'Visual'};
-      card.appendChild(btn);
+      btn.onclick=()=>{let p=card.querySelector('.exercise-guide');if(!p){card.insertAdjacentHTML('beforeend',markup(id));p=card.querySelector('.exercise-guide')}const open=p.classList.toggle('open');btn.textContent=open?'Hide':'Visual'};card.appendChild(btn);
     });
   }
-
   function augmentModal(){
     document.querySelectorAll('#workoutForm .workout-ex:not(.guide-ready)').forEach(card=>{
       const id=card.dataset.ex==='mini-cardio'?(card.querySelector('b')?.textContent?.includes('Vélo')?'bike':'rower'):card.dataset.ex;if(!guides[id])return;
-      card.classList.add('guide-ready');
-      card.querySelector('.workout-ex-head')?.insertAdjacentHTML('afterend',`<details class="workout-guide-details"><summary>Visual & technique</summary>${markup(id)}</details>`);
+      card.classList.add('guide-ready');card.querySelector('.workout-ex-head')?.insertAdjacentHTML('afterend',`<details class="workout-guide-details"><summary>Visual & technique</summary>${markup(id)}</details>`);
     });
   }
-
   function augment(){augmentList();augmentModal()}
   new MutationObserver(augment).observe(document.documentElement,{subtree:true,childList:true});
   document.addEventListener('DOMContentLoaded',augment);setTimeout(augment,300);
 })();
+(()=>{const s=document.createElement('script');s.src='/quote-rotation-v1.js';document.head.appendChild(s)})();
