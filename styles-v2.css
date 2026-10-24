@@ -25,7 +25,7 @@
 .coffee-number{display:flex;align-items:baseline;gap:6px;white-space:nowrap}.coffee-number strong{font-size:48px;line-height:.8;letter-spacing:-.07em}.coffee-number span{font:800 9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em}
 .coffee-grid{display:grid;grid-template-columns:minmax(150px,1fr) minmax(180px,1fr);gap:16px;align-items:center;padding:14px 0}
 .coffee-sprite-stage{min-height:190px;display:grid;place-items:center;background:#000;border:1.5px solid #000;overflow:hidden}
-.coffee-sprite{width:min(190px,100%);aspect-ratio:32/45;background-image:url('/assets/coffee-brain.webp?v=3');background-repeat:no-repeat;background-size:1000% 400%;background-position:0 0;image-rendering:pixelated;image-rendering:crisp-edges}
+.coffee-sprite{width:min(190px,100%);aspect-ratio:32/45;background-image:url('/assets/coffee-brain.webp?v=4');background-repeat:no-repeat;background-size:1000% 400%;background-position:0 0;image-rendering:pixelated;image-rendering:crisp-edges}
 .coffee-controls{display:grid;gap:8px}.coffee-add{min-height:58px;font-size:16px}.coffee-undo:disabled{opacity:.35;cursor:not-allowed}
 .coffee-meta{display:grid;gap:3px;padding-top:8px;border-top:1px dashed #000;font:700 9px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;color:#68655e}
 .coffee-history{display:grid;grid-template-columns:repeat(7,1fr);border:1.5px solid #000;margin-top:4px}
