@@ -117,3 +117,18 @@
 .smoking-sprite,.coffee-sprite{background:#000!important}
 .habit-history .smoke-day.today,
 .habit-history .coffee-day.today{background:#fff!important;color:#000!important}
+
+/* Native-size direct sprite rendering */
+.habit-sprite-wrap{background:#000!important;min-height:128px!important;padding:8px!important}
+.habit-sprite-wrap .smoking-sprite{
+  width:77px!important;height:77px!important;aspect-ratio:1/1!important;
+  background-image:url('/assets/smoking-lungs.webp?v=5')!important;
+  background-repeat:no-repeat!important;background-size:1000% 400%!important;
+  background-color:#000!important;image-rendering:auto!important;
+}
+.habit-sprite-wrap .coffee-sprite{
+  width:77px!important;height:108px!important;aspect-ratio:77/108!important;
+  background-image:url('/assets/coffee-brain.webp?v=5')!important;
+  background-repeat:no-repeat!important;background-size:1000% 400%!important;
+  background-color:#000!important;image-rendering:auto!important;
+}
