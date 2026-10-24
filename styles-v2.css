@@ -162,3 +162,44 @@
   background-color:#000!important;
   image-rendering:auto!important;
 }
+
+/* Deterministic sprite viewport — transform exact cells, no background-position */
+.sprite-viewport{
+  position:relative!important;
+  overflow:hidden!important;
+  background:#000!important;
+  flex:none!important;
+}
+.sprite-sheet{
+  position:absolute!important;
+  left:0!important;
+  top:0!important;
+  background-repeat:no-repeat!important;
+  background-position:0 0!important;
+  will-change:transform;
+  pointer-events:none;
+}
+.habit-sprite-wrap .smoking-sprite{
+  width:110px!important;
+  height:110px!important;
+  aspect-ratio:1/1!important;
+  background-image:none!important;
+}
+.smoking-sheet{
+  width:1100px!important;
+  height:440px!important;
+  background-image:url('/assets/smoking-lungs-original.jpg?v=2')!important;
+  background-size:1100px 440px!important;
+}
+.habit-sprite-wrap .coffee-sprite{
+  width:100px!important;
+  height:141px!important;
+  aspect-ratio:100/141!important;
+  background-image:none!important;
+}
+.coffee-sheet{
+  width:1000px!important;
+  height:564px!important;
+  background-image:url('/assets/coffee-brain-original.jpg?v=2')!important;
+  background-size:1000px 564px!important;
+}
