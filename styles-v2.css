@@ -95,3 +95,25 @@
 /* Exact canvas sprite rendering */
 .habit-sprite-wrap{background:#fbfaf6!important}
 .smoking-sprite,.coffee-sprite{background:#fff!important;object-fit:contain}
+
+/* Native black sprite cards */
+.habit-card.smoking-card,
+.habit-card.coffee-card{
+  background:#000!important;
+  color:#fff!important;
+  border-color:#000!important;
+}
+.habit-card.smoking-card .label,
+.habit-card.coffee-card .label{color:#aaa!important}
+.habit-card.smoking-card .habit-add,
+.habit-card.coffee-card .habit-add{
+  background:#fff!important;
+  color:#000!important;
+  border-color:#fff!important;
+}
+.habit-card.smoking-card .habit-undo,
+.habit-card.coffee-card .habit-undo{color:#fff!important}
+.habit-sprite-wrap{background:#000!important}
+.smoking-sprite,.coffee-sprite{background:#000!important}
+.habit-history .smoke-day.today,
+.habit-history .coffee-day.today{background:#fff!important;color:#000!important}
