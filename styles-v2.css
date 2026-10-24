@@ -140,3 +140,25 @@
   background-size:1000% 400%!important;
   background-repeat:no-repeat!important;
 }
+
+/* Full-resolution original sprite sheets — no re-encoding */
+.habit-sprite-wrap .smoking-sprite{
+  width:110px!important;
+  height:110px!important;
+  aspect-ratio:1/1!important;
+  background-image:url('/assets/smoking-lungs-original.jpg?v=1')!important;
+  background-size:1000% 400%!important;
+  background-repeat:no-repeat!important;
+  background-color:#000!important;
+  image-rendering:auto!important;
+}
+.habit-sprite-wrap .coffee-sprite{
+  width:100px!important;
+  height:141px!important;
+  aspect-ratio:153.6/216!important;
+  background-image:url('/assets/coffee-brain-original.jpg?v=1')!important;
+  background-size:1000% 400%!important;
+  background-repeat:no-repeat!important;
+  background-color:#000!important;
+  image-rendering:auto!important;
+}
