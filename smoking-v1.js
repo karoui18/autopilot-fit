@@ -6,12 +6,7 @@
   const countFor=(key=localDayKey())=>Math.max(0,Number(dayState(key).cigarettes||0));
   function framesFor(count){if(count<=0)return [0];const target=Math.min(FRAME_COUNT-1,Math.round(Math.min(count,VISUAL_MAX)*(FRAME_COUNT-1)/VISUAL_MAX));const start=Math.max(1,target-(GROUP-1));return Array.from({length:target-start+1},(_,i)=>start+i)}
   function loadSheet(){if(sheet?.complete)return Promise.resolve(sheet);return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>{sheet=img;resolve(img)};img.onerror=reject;img.src=SRC})}
-  function whitenConnectedBackground(imageData,w,h){
-    const d=imageData.data,seen=new Uint8Array(w*h),q=[],push=(x,y)=>{if(x<0||y<0||x>=w||y>=h)return;const i=y*w+x;if(seen[i])return;const p=i*4;if(d[p]<28&&d[p+1]<28&&d[p+2]<28){seen[i]=1;q.push(i)}};
-    for(let x=0;x<w;x++){push(x,0);push(x,h-1)}for(let y=0;y<h;y++){push(0,y);push(w-1,y)}
-    for(let n=0;n<q.length;n++){const i=q[n],x=i%w,y=(i/w)|0,p=i*4;d[p]=255;d[p+1]=255;d[p+2]=255;d[p+3]=255;push(x+1,y);push(x-1,y);push(x,y+1);push(x,y-1)}
-    return imageData;
-  }
+  
   async function setFrame(frame){
     const canvas=document.getElementById('smokingSprite');if(!canvas)return;
     try{
@@ -20,8 +15,7 @@
       const sy=Math.round(row*img.naturalHeight/4),ey=Math.round((row+1)*img.naturalHeight/4);
       const sw=ex-sx,sh=ey-sy,off=document.createElement('canvas');off.width=sw;off.height=sh;
       const ox=off.getContext('2d',{willReadFrequently:true});ox.drawImage(img,sx,sy,sw,sh,0,0,sw,sh);
-      const clean=whitenConnectedBackground(ox.getImageData(0,0,sw,sh),sw,sh);ox.putImageData(clean,0,0);
-      const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+      const ctx=canvas.getContext('2d');ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#000';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
       const scale=Math.min(canvas.width/sw,canvas.height/sh),dw=Math.round(sw*scale),dh=Math.round(sh*scale),dx=Math.round((canvas.width-dw)/2),dy=Math.round((canvas.height-dh)/2);
       ctx.drawImage(off,0,0,sw,sh,dx,dy,dw,dh);canvas.setAttribute('aria-label','Smoking counter lung character, frame '+(frame+1)+' of 40');
     }catch(e){console.error('sprite render failed',e)}
