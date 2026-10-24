@@ -14,10 +14,11 @@
   }
   function setFrame(frame){
     const el=document.getElementById('smokingSprite'); if(!el)return;
+    const sheet=el.querySelector('.sprite-sheet'); if(!sheet)return;
     const col=frame%10,row=Math.floor(frame/10);
-    el.style.backgroundPosition=`${(col/9)*100}% ${(row/3)*100}%`;
+    sheet.style.transform='translate3d('+(-col*110)+'px,'+(-row*110)+'px,0)';
     el.dataset.frame=String(frame);
-    el.setAttribute('aria-label',`Smoking counter lung character, frame ${frame+1} of 40`);
+    el.setAttribute('aria-label','Smoking counter lung character, frame '+(frame+1)+' of 40');
   }
   function startLoop(count){
     clearInterval(loopTimer);
