@@ -34,3 +34,25 @@
 .coffee-note{margin:10px 0 0;color:#68655e;font:700 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
 @media(max-width:560px){.coffee-grid{grid-template-columns:1fr 1fr;gap:10px}.coffee-sprite-stage{min-height:150px}.coffee-number strong{font-size:40px}.coffee-day{padding-inline:3px}.coffee-day span{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.coffee-bar i{transition:none}}
+
+/* Compact daily habit cards */
+.habit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.habit-card{border:1.5px solid #000;min-width:0;aspect-ratio:1/1;background:#fff;display:grid;grid-template-rows:auto 1fr auto auto;overflow:hidden}
+.habit-card.smoking-card{background:#000;color:#fff}.habit-card.coffee-card{background:#fbfaf6;color:#000}
+.habit-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:10px;border-bottom:1px solid currentColor}
+.habit-top>div{display:grid;grid-template-columns:auto auto;align-items:end;column-gap:5px}.habit-top .label{grid-column:1/-1;margin-bottom:4px}
+.habit-top strong{font-size:38px;line-height:.8;letter-spacing:-.06em}.habit-top small{font:800 8px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em}
+.habit-add{min-width:48px;height:42px;padding:0;border:1.5px solid currentColor;background:currentColor;color:var(--paper);font-size:16px}
+.smoking-card .habit-add{background:#fff;color:#000;border-color:#fff}.coffee-card .habit-add{background:#000;color:#fff;border-color:#000}
+.habit-sprite-wrap{display:grid;place-items:center;min-height:0;padding:8px;background:#000}
+.habit-sprite-wrap .smoking-sprite,.habit-sprite-wrap .coffee-sprite{width:min(118px,88%);max-width:100%;aspect-ratio:1/1}
+.habit-sprite-wrap .coffee-sprite{aspect-ratio:1/1}
+.habit-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 9px;border-top:1px solid currentColor;font:700 7px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
+.habit-undo{border:0;background:transparent;color:inherit;padding:2px 0;font:800 7px ui-monospace,SFMono-Regular,Menlo,monospace}
+.habit-undo:hover{background:transparent;color:inherit;text-decoration:underline}.habit-undo:disabled{opacity:.35}
+.habit-history{display:grid!important;grid-template-columns:repeat(7,1fr)!important;border:0!important;border-top:1px solid currentColor!important;margin:0!important}
+.habit-history .smoke-day,.habit-history .coffee-day{padding:3px 1px!important;gap:2px!important;border-right:1px solid currentColor!important}
+.habit-history .smoke-day:last-child,.habit-history .coffee-day:last-child{border-right:0!important}
+.habit-history .smoke-bar,.habit-history .coffee-bar{height:12px!important;border:0!important;border-bottom:1px solid currentColor!important}
+.habit-history b{font-size:9px!important}.habit-history span{font-size:5px!important}
+@media(max-width:430px){.habit-grid{gap:8px}.habit-card{aspect-ratio:auto;min-height:260px}.habit-top strong{font-size:34px}.habit-sprite-wrap .smoking-sprite,.habit-sprite-wrap .coffee-sprite{width:min(104px,88%)}}
