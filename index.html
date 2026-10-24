@@ -25,6 +25,22 @@
         <section class="stories-strip" id="storiesStrip" aria-label="Motivation stories"></section>
         <section class="card hero"><div><span class="label">Poids</span><div class="metric"><span id="weightNow">—</span><small> kg</small></div><div id="trendText" class="subtle">Ajoute ton poids pour démarrer.</div></div><button class="primary compact" data-action="weight">+ Poids</button></section>
         <section class="grid3"><article class="card mini-stat"><span class="label">Pas</span><strong id="stepsNow">0</strong><small id="stepsTarget">/ 8 000</small></article><article class="card mini-stat"><span class="label">Série</span><strong id="streakNow">0</strong><small> jours</small></article><article class="card mini-stat"><span class="label">Séances</span><strong id="weekWorkouts">0</strong><small>/ 3</small></article></section>
+        <section class="card smoking-card" id="smokingCard">
+          <div class="smoking-head">
+            <div><span class="label">Smoking / today</span><h2>Daily cigarette counter</h2></div>
+            <div class="smoking-number"><strong id="smokingCount">0</strong><span>CIG</span></div>
+          </div>
+          <div class="smoking-grid">
+            <div class="smoking-sprite-stage"><div id="smokingSprite" class="smoking-sprite" role="img" aria-label="Smoking counter lung character"></div></div>
+            <div class="smoking-controls">
+              <button id="addCigarette" class="primary smoking-add" type="button">+1 cigarette</button>
+              <button id="undoCigarette" class="secondary smoking-undo" type="button">Undo</button>
+              <div class="smoking-meta"><b id="smokingFrameLabel">FRAME 01 / 40</b><span>Visual scale ends at 20+</span></div>
+            </div>
+          </div>
+          <div id="smokingHistory" class="smoking-history" aria-label="Seven day cigarette history"></div>
+          <p class="smoking-note">Resets automatically at local midnight. The character is gamified feedback, not a medical image of your lungs.</p>
+        </section>
         <section class="card"><div class="row between"><div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div><button class="ghost compact" data-action="food">+ Repas</button></div><div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div><div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div><div class="quick-log"><button data-action="steps" class="secondary">+ Pas</button><button data-action="checkin" class="secondary">Énergie / faim</button></div></section>
         <section class="card accent-card"><div class="row between"><div><span class="label">Autopilot</span><h2 id="autopilotHeadline">Collecte des données</h2></div><span id="autopilotBadge" class="pill">En cours</span></div><p id="autopilotText" class="subtle">Le moteur attend suffisamment de données avant d’ajuster le plan.</p></section>
       </section>
@@ -53,6 +69,6 @@
     <nav class="bottomnav" aria-label="Navigation"><button class="active" data-nav="today"><span>⌂</span><small>Today</small></button><button data-nav="workout"><span>●</span><small>Workout</small></button><button data-nav="progress"><span>↗</span><small>Progress</small></button><button data-nav="stories"><span>▶</span><small>Stories</small></button><button data-nav="settings"><span>⚙</span><small>Settings</small></button></nav>
   </div>
   <dialog id="modal"><form method="dialog" class="modal-card"><div id="modalBody"></div><button class="secondary full" value="cancel">Fermer</button></form></dialog>
-  <script src="/db-v2.js"></script><script src="/engine-v2.js"></script><script src="/app-v2.js"></script><script src="/exercise-guides-v1.js"></script>
+  <script src="/db-v2.js"></script><script src="/engine-v2.js"></script><script src="/app-v2.js"></script><script src="/exercise-guides-v1.js"></script><script src="/quote-rotation-v1.js"></script><script src="/smoking-v1.js"></script>
 </body>
 </html>
