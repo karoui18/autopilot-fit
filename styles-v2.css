@@ -203,3 +203,10 @@
   background-image:url('/assets/coffee-brain-original.jpg?v=2')!important;
   background-size:1000px 564px!important;
 }
+
+/* Progress habit trends */
+.progress-habits-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.progress-habits-grid .card{margin-bottom:0}
+.progress-habit-card canvas{height:150px!important}
+.progress-habit-value{font-size:40px;line-height:.9;letter-spacing:-.06em}
+@media(max-width:560px){.progress-habits-grid{grid-template-columns:1fr 1fr;gap:8px}.progress-habit-card{padding:12px}.progress-habit-card h2{font-size:15px}.progress-habit-value{font-size:32px}}
