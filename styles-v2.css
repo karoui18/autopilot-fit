@@ -210,3 +210,33 @@
 .progress-habit-card canvas{height:150px!important}
 .progress-habit-value{font-size:40px;line-height:.9;letter-spacing:-.06em}
 @media(max-width:560px){.progress-habits-grid{grid-template-columns:1fr 1fr;gap:8px}.progress-habit-card{padding:12px}.progress-habit-card h2{font-size:15px}.progress-habit-value{font-size:32px}}
+
+/* Today regression fix */
+.view[data-view="today"]{overflow-x:hidden}
+.view[data-view="today"] .card{aspect-ratio:auto!important}
+.view[data-view="today"] .grid3 .card{aspect-ratio:auto!important;min-height:0!important}
+.view[data-view="today"] .habit-card{
+  aspect-ratio:auto!important;
+  min-height:0!important;
+  width:100%!important;
+}
+.view[data-view="today"] .habit-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  gap:10px!important;
+  width:100%!important;
+  max-width:100%!important;
+  overflow:hidden!important;
+}
+.view[data-view="today"] .habit-card{min-width:0!important;overflow:hidden!important}
+.view[data-view="today"] .habit-top{min-width:0}
+.view[data-view="today"] .habit-sprite-wrap{min-height:120px!important}
+.view[data-view="today"] .habit-history{min-width:0!important;width:100%!important}
+.bottomnav{width:100%;overflow:hidden}
+.bottomnav button{min-width:0}
+.app-shell{overflow-x:hidden}
+main{overflow-x:hidden}
+@media(max-width:560px){
+  .view[data-view="today"] .habit-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+  .view[data-view="today"] .habit-card{aspect-ratio:auto!important;min-height:0!important}
+}
