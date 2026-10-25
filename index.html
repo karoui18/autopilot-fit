@@ -23,33 +23,87 @@
     <main>
       <section class="view active" data-view="today">
         <section class="stories-strip" id="storiesStrip" aria-label="Motivation stories"></section>
-        <section class="card hero"><div><span class="label">Poids</span><div class="metric"><span id="weightNow">—</span><small> kg</small></div><div id="trendText" class="subtle">Ajoute ton poids pour démarrer.</div></div><button class="primary compact" data-action="weight">+ Poids</button></section>
-        <section class="grid3"><article class="card mini-stat"><span class="label">Pas</span><strong id="stepsNow">0</strong><small id="stepsTarget">/ 8 000</small></article><article class="card mini-stat"><span class="label">Série</span><strong id="streakNow">0</strong><small> jours</small></article><article class="card mini-stat"><span class="label">Séances</span><strong id="weekWorkouts">0</strong><small>/ 3</small></article></section>
+
+        <section class="card hero">
+          <div>
+            <span class="label">Poids</span>
+            <div class="metric"><span id="weightNow">—</span><small> kg</small></div>
+            <div id="trendText" class="subtle">Ajoute ton poids pour démarrer.</div>
+          </div>
+          <button class="primary compact" data-action="weight">+ Poids</button>
+        </section>
+
+        <section class="grid3">
+          <article class="card mini-stat">
+            <span class="label">Pas</span>
+            <strong id="stepsNow">0</strong>
+            <small id="stepsTarget">/ 8 000</small>
+          </article>
+          <article class="card mini-stat">
+            <span class="label">Série</span>
+            <strong id="streakNow">0</strong>
+            <small> jours</small>
+          </article>
+          <article class="card mini-stat">
+            <span class="label">Séances</span>
+            <strong id="weekWorkouts">0</strong>
+            <small>/ 3</small>
+          </article>
+        </section>
+
         <section class="habit-grid" aria-label="Daily counters">
           <section class="habit-card smoking-card compact-habit" id="smokingCard">
             <div class="habit-top">
               <div><span class="label">Smoking</span><strong id="smokingCount">0</strong><small>CIG</small></div>
               <button id="addCigarette" class="habit-add" type="button">+1</button>
             </div>
-            <div class="habit-sprite-wrap"><div id="smokingSprite" class="sprite-viewport smoking-sprite" role="img" aria-label="Smoking counter lung character"><div class="sprite-sheet smoking-sheet"></div></div></div>
-            <div class="habit-meta"><span id="smokingFrameLabel">FRAME 01 / 40</span><button id="undoCigarette" class="habit-undo" type="button">UNDO</button></div>
+            <div class="habit-sprite-wrap">
+              <div id="smokingSprite" class="sprite-viewport smoking-sprite" role="img" aria-label="Smoking counter lung character">
+                <div class="sprite-sheet smoking-sheet"></div>
+              </div>
+            </div>
+            <div class="habit-meta">
+              <span id="smokingFrameLabel">FRAME 01 / 40</span>
+              <button id="undoCigarette" class="habit-undo" type="button">UNDO</button>
+            </div>
             <div id="smokingHistory" class="habit-history smoking-history" aria-label="Seven day cigarette history"></div>
           </section>
+
           <section class="habit-card coffee-card compact-habit" id="coffeeCard">
             <div class="habit-top">
               <div><span class="label">Coffee</span><strong id="coffeeCount">0</strong><small>COFFEE</small></div>
               <button id="addCoffee" class="habit-add" type="button">+1</button>
             </div>
-            <div class="habit-sprite-wrap"><div id="coffeeSprite" class="sprite-viewport coffee-sprite" role="img" aria-label="Coffee counter brain character"><div class="sprite-sheet coffee-sheet"></div></div></div>
-            <div class="habit-meta"><span id="coffeeFrameLabel">FRAME 01 / 40</span><button id="undoCoffee" class="habit-undo" type="button">UNDO</button></div>
+            <div class="habit-sprite-wrap">
+              <div id="coffeeSprite" class="sprite-viewport coffee-sprite" role="img" aria-label="Coffee counter brain character">
+                <div class="sprite-sheet coffee-sheet"></div>
+              </div>
+            </div>
+            <div class="habit-meta">
+              <span id="coffeeFrameLabel">FRAME 01 / 40</span>
+              <button id="undoCoffee" class="habit-undo" type="button">UNDO</button>
+            </div>
             <div id="coffeeHistory" class="habit-history coffee-history" aria-label="Seven day coffee history"></div>
           </section>
-        <section class="grid3"><article class="card mini-stat"><span class="label">Pas</span><strong id="stepsNow">0</strong><small id="stepsTarget">/ 8 000</small></article><article class="card mini-stat"><span class="label">Série</span><strong id="streakNow">0</strong><small> jours</small></article><article class="card mini-stat"><span class="label">Séances</span><strong id="weekWorkouts">0</strong><small>/ 3</small></article></section>
-        <section class="card"><div class="row between"><div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div><button class="ghost compact" data-action="food">+ Repas</button></div><div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div><div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div><div class="quick-log"><button data-action="steps" class="secondary">+ Pas</button><button data-action="checkin" class="secondary">Énergie / faim</button></div></section>
-        <section class="card accent-card"><div class="row between"><div><span class="label">Autopilot</span><h2 id="autopilotHeadline">Collecte des données</h2></div><span id="autopilotBadge" class="pill">En cours</span></div><p id="autopilotText" class="subtle">Le moteur attend suffisamment de données avant d’ajuster le plan.</p></section>
-      </section>
-        <section class="card"><div class="row between"><div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div><button class="ghost compact" data-action="food">+ Repas</button></div><div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div><div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div><div class="quick-log"><button data-action="steps" class="secondary">+ Pas</button><button data-action="checkin" class="secondary">Énergie / faim</button></div></section>
-        <section class="card accent-card"><div class="row between"><div><span class="label">Autopilot</span><h2 id="autopilotHeadline">Collecte des données</h2></div><span id="autopilotBadge" class="pill">En cours</span></div><p id="autopilotText" class="subtle">Le moteur attend suffisamment de données avant d’ajuster le plan.</p></section>
+        </section>
+
+        <section class="card">
+          <div class="row between">
+            <div><span class="label">Nutrition</span><h2>Repère quotidien</h2></div>
+            <button class="ghost compact" data-action="food">+ Repas</button>
+          </div>
+          <div class="progress-row"><span>Calories</span><div class="bar"><i id="calBar"></i></div><b id="calText">0 / 2200</b></div>
+          <div class="progress-row"><span>Protéines</span><div class="bar"><i id="proteinBar"></i></div><b id="proteinText">0 / 150 g</b></div>
+          <div class="quick-log"><button data-action="steps" class="secondary">+ Pas</button><button data-action="checkin" class="secondary">Énergie / faim</button></div>
+        </section>
+
+        <section class="card accent-card">
+          <div class="row between">
+            <div><span class="label">Autopilot</span><h2 id="autopilotHeadline">Collecte des données</h2></div>
+            <span id="autopilotBadge" class="pill">En cours</span>
+          </div>
+          <p id="autopilotText" class="subtle">Le moteur attend suffisamment de données avant d’ajuster le plan.</p>
+        </section>
       </section>
 
       <section class="view" data-view="workout">
